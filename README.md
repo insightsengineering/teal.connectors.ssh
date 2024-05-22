@@ -19,7 +19,6 @@
 [![Open Issues](https://img.shields.io/github/issues-raw/insightsengineering/teal?color=red\&label=open%20issues)](https://github.com/insightsengineering/teal/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc)
 <!-- end badges -->
 
-
 This package allows SSH data to be pulled into `teal` applications.
 The app developer can use this as a [`teal_data_module`](https://insightsengineering.github.io/teal/latest-tag/data-as-shiny-module.Rmd) in their `teal` application.
 
@@ -28,7 +27,7 @@ The app developer can use this as a [`teal_data_module`](https://insightsenginee
 - One or more paths to the data in the remote server
 - The data names that will be associated with the data
 - Function to use to read the data. Defaults to `utils::read.csv`
-  - Extra arguments on `ssh_connector` call will be passed on to this function 
+  - Extra arguments on `ssh_connector` call will be passed on to this function
 - _(optionally)_ The host of the remote server
   - If not defined, the user must input it manually
 
