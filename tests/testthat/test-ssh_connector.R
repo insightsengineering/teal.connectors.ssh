@@ -23,11 +23,11 @@ testthat::test_that("ssh_connector returns a 'teal_data_module' with ui and serv
 testthat::test_that("ssh_connector$server returns 'teal_data' after clicking submit button", {
   # Necessary to shiny::isRunning() = FALSE
   # https://github.com/rstudio/shiny/issues/3597
-  initCurrentAppState <- getFromNamespace("initCurrentAppState", "shiny")
-  clearCurrentAppState <- getFromNamespace("clearCurrentAppState", "shiny")
+  init_current_app_state <- getFromNamespace("initCurrentAppState", "shiny")
+  clear_current_app_state <- getFromNamespace("clearCurrentAppState", "shiny")
 
-  initCurrentAppState("testing")
-  withr::defer(clearCurrentAppState())
+  init_current_app_state("testing")
+  withr::defer(clear_current_app_state())
 
   iris_path <- withr::local_tempfile()
   mtcars_path <- withr::local_tempfile()
@@ -99,11 +99,11 @@ testthat::test_that("ssh_connector$server returns 'teal_data' after clicking sub
 testthat::test_that("ssh_connector$server returns 'teal_data' from ", {
   # Necessary to shiny::isRunning() = FALSE
   # https://github.com/rstudio/shiny/issues/3597
-  initCurrentAppState <- getFromNamespace("initCurrentAppState", "shiny")
-  clearCurrentAppState <- getFromNamespace("clearCurrentAppState", "shiny")
+  init_current_app_state <- getFromNamespace("initCurrentAppState", "shiny")
+  clear_current_app_state <- getFromNamespace("clearCurrentAppState", "shiny")
 
-  initCurrentAppState("testing")
-  withr::defer(clearCurrentAppState())
+  init_current_app_state("testing")
+  withr::defer(clear_current_app_state())
 
   iris_path <- withr::local_tempfile()
 
