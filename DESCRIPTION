@@ -1,6 +1,6 @@
 Type: Package
 Package: teal.connectors.ssh
-Title: Connectors to SSH data
+Title: Teal connector to SSH Data
 Version: 0.1.0.9000
 Date: 2024-05-12
 Authors@R: c(
