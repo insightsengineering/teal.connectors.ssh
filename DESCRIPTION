@@ -30,6 +30,11 @@ Suggests:
     testthat (>= 3.0)
 VignetteBuilder:
     knitr
+Config/Needs/verdepcheck:
+    r-lib/askpass, mllg/checkmate, r-lib/rlang, rstudio/shiny, daattali/shinyjs, 
+    jeroen/ssh, insightsengineering/teal, insightsengineering/teal.data, 
+    insightsengineering/teal.code, r-lib/withr, yihui/knitr, r-lib/lifecycle,
+    rstudio/rmarkdown, r-lib/testthat
 Config/Needs/website: insightsengineering/nesttemplate
 Encoding: UTF-8
 LazyData: true
