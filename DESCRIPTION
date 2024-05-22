@@ -1,0 +1,37 @@
+Type: Package
+Package: teal.connectors.ssh
+Title: Connectors to SSH data
+Version: 0.1.0.9000
+Date: 2024-05-12
+Authors@R: c(
+    person("Andre", "Verissimo", , "andre.verissimo@roche.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-2212-339X")),
+    person("F. Hoffmann-La Roche AG", role = c("cph", "fnd"))
+  )
+Description: Connectors for teal apps to access ssh data.
+License: Apache License 2.0 | file LICENSE
+Depends:
+    R (>= 3.6.0)
+Imports:
+    askpass,
+    checkmate,
+    rlang,
+    shiny,
+    shinyjs,
+    ssh,
+    teal (>= 0.15.2),
+    teal.data (>= 0.6),
+    teal.code (>= 0.5.0),
+    withr
+Suggests:
+    knitr (>= 1.42),
+    lifecycle,
+    rmarkdown (>= 2.23),
+    testthat (>= 3.0)
+VignetteBuilder:
+    knitr
+Config/Needs/website: insightsengineering/nesttemplate
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
