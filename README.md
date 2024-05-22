@@ -15,8 +15,8 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/insightsengineering/teal.connectors.ssh)
 ![GitHub language count](https://img.shields.io/github/languages/count/insightsengineering/teal.connectors.ssh)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![Current Version](https://img.shields.io/github/r-package/v/insightsengineering/teal/main?color=purple\&label=package%20version)](https://github.com/insightsengineering/teal/tree/main)
-[![Open Issues](https://img.shields.io/github/issues-raw/insightsengineering/teal?color=red\&label=open%20issues)](https://github.com/insightsengineering/teal/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc)
+[![Current Version](https://img.shields.io/github/r-package/v/insightsengineering/teal.connectors.ssh/main?color=purple\&label=package%20version)](https://github.com/insightsengineering/teal.connectors.ssh/tree/main)
+[![Open Issues](https://img.shields.io/github/issues-raw/insightsengineering/teal.connectors.ssh?color=red\&label=open%20issues)](https://github.com/insightsengineering/teal.connectors.ssh/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc)
 <!-- end badges -->
 
 This package allows SSH data to be pulled into `teal` applications.
