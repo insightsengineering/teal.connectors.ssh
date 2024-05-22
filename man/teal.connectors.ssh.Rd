@@ -10,7 +10,7 @@ The functions in this package is meant to construct R6 data and data
 connector classes from the teal package
 }
 \author{
-\strong{Maintainer}: Ande Verissimo \email{andre.verissimo@roche.com} (\href{https://orcid.org/0000-0002-2212-339X}{ORCID})
+\strong{Maintainer}: Andre Verissimo \email{andre.verissimo@roche.com} (\href{https://orcid.org/0000-0002-2212-339X}{ORCID})
 
 Other contributors:
 \itemize{
