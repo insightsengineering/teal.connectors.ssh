@@ -1,12 +1,13 @@
 current_repo:
-  repo: nest/r-packages/teal.connectors.ssh
-  host: https://code.roche.com
-  host_type: gitlab
+  repo: insightsengineering/teal.connectors.ssh
+  host: https://github.com
 upstream_repos:
   insightsengineering/teal:
     repo: insightsengineering/teal
     host: https://github.com
-downstream_repos:
-  nest/r-packages/teal.gallery:
-    repo: nest/r-packages/teal.gallery
-    host: https://code.roche.com
+  insightsengineering/teal.data:
+    repo: insightsengineering/teal.data
+    host: https://github.com
+  insightsengineering/teal.code:
+    repo: insightsengineering/teal.code
+    host: https://github.com
