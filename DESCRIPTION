@@ -1,7 +1,7 @@
 Type: Package
 Package: teal.connectors.ssh
 Title: Teal connector to SSH Data
-Version: 0.1.0.9000
+Version: 0.0.0.9000
 Date: 2024-05-12
 Authors@R: c(
     person("Andre", "Verissimo", , "andre.verissimo@roche.com", role = c("aut", "cre"),

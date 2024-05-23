@@ -64,4 +64,3 @@ shiny::runApp(app)
 ```
 
 ![Example of sample application](man/figures/example-ui.png)
->>>>>>> 0f60c45 (initial commit)
