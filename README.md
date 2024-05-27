@@ -60,7 +60,7 @@ x <- ssh_connector(
   host = "example.com:22"
 )
 app <- teal::init(data = x, modules = list(teal::example_module()))
-shiny::runApp(app)
+shiny::shinyApp(app$ui, app$server)
 ```
 
 ![Example of sample application](man/figures/example-ui.png)
