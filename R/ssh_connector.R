@@ -106,8 +106,23 @@ ssh_connector <- function(data = teal.data::teal_data(),
       ns <- shiny::NS(id)
       shiny::tagList(
         shinyjs::useShinyjs(),
-        ssh_connect_ui(ns("cred"), default_host = host, paths = paths),
-        shiny::actionButton(ns("submit"), label = "Load data")
+        ssh_connect_ui(ns("cred"), default_host = host),
+        shiny::div(
+          shiny::tags$h5(
+            shiny::tags$i(class = "fa-solid fa-circle-info"),
+            "Name of datasets and respective remote path:"
+          ),
+          shiny::tags$ul(
+            lapply(names(paths), function(dataname) {
+              shiny::tags$li(
+                shiny::tags$code(dataname),
+                shiny::tags$span(":", .noWS = "before"),
+                shiny::tags$code(paths[[dataname]])
+              )
+            })
+          )
+        ),
+        shinyjs::disabled(shiny::actionButton(ns("submit"), label = "Load data"))
       )
     },
     server = function(id) {
@@ -115,19 +130,19 @@ ssh_connector <- function(data = teal.data::teal_data(),
         # When app developer defines the host, it cannot be changed
         if (!is.null(host)) shinyjs::disable(id = "cred-host")
 
-        tdata <- shiny::eventReactive(input$submit, {
-          new_tdata <- within(
-            data,
-            {
-              ssh_args <- ssh_authenticator(id = "cred", default_host = host)
-              ssh_session <- ssh_args$session
-            },
-            host = host
-          )
+        ssh_args <- ssh_connect_srv(id = "cred", default_host = host)
+
+        tdata <- shiny::eventReactive(ssh_args(), {
+          new_tdata <- teal.code::concat(data, teal_data(ssh_session = ssh_args()$session))
           # Read data for every path
           new_tdata <- teal.code::eval_code(new_tdata, code)
 
+          if (inherits(new_tdata, "qenv.error")) {
+            shinyjs::disable("submit")
+          }
+
           new_tdata <- within(
+
             new_tdata,
             {
               ssh::ssh_disconnect(ssh_session)
@@ -136,7 +151,8 @@ ssh_connector <- function(data = teal.data::teal_data(),
           )
 
           if (checkmate::test_class(new_tdata, "teal_data")) {
-            teal.data::datanames(new_tdata) <- union(teal.data::datanames(new_tdata), names(paths))
+            shinyjs::enable("submit")
+            teal.data::datanames(new_tdata) <-setdiff(union(teal.data::datanames(new_tdata), names(paths)), "ssh_session")
             teal.data::join_keys(new_tdata) <- join_keys
           }
 
@@ -158,34 +174,71 @@ ssh_connector <- function(data = teal.data::teal_data(),
 #' @return a [shiny::tagList] with UI definition.
 #'
 #' @keywords internal
-ssh_connect_ui <- function(id, default_host = NULL, paths) {
+ssh_connect_ui <- function(id, default_host = NULL) {
   checkmate::assert_string(id)
   ns <- shiny::NS(id)
 
   shiny::tagList(
-    shiny::tags$div(
-      style = "padding-left: 1em; border-left: solid 1px gray;",
-      shiny::tags$h5("SSH authentication"),
-      shiny::textInput(ns("host"), "Host", value = default_host %||% "", placeholder = "hostname or hostname:port"),
-      shiny::textInput(ns("user"), "Username"),
-      shiny::passwordInput(ns("password"), "Password"),
-    ),
-    shiny::div(
-      shiny::tags$h5(
-        shiny::tags$i(class = "fa-solid fa-circle-info"),
-        "Name of datasets and respective remote path:"
-      ),
-      shiny::tags$ul(
-        lapply(names(paths), function(dataname) {
-          shiny::tags$li(
-            shiny::tags$code(dataname),
-            shiny::tags$span(":", .noWS = "before"),
-            shiny::tags$code(paths[[dataname]])
+    fluidPage(
+      fluidRow(
+        column(
+          width = 6,
+          shiny::tags$div(
+            class = "auth_container",
+            shiny::tags$h5("SSH authentication"),
+            shiny::textInput(ns("host"), "Host", value = default_host %||% "", placeholder = "hostname or hostname:port"),
+            shiny::textInput(ns("user"), "Username"),
+            shiny::passwordInput(ns("password"), "Password"),
+            shiny::actionButton(ns("connect"), label = "Connect")
           )
-        })
+        ),
+        column(
+          width = 6,
+          tableOutput(ns("connection_info"))
+        )
       )
     )
   )
+
+}
+
+#' Server logic for SSH connection
+#'
+#' This function handles the server-side logic for establishing an SSH connection.
+#'
+#' @param id (`character(1)`) The id string used in the UI element namespace.
+#' @param default_host (`character(1)`) The default SSH host if specified.
+#'
+#' @return a list with a session object from [ssh::ssh_connect()].
+#' @export
+ssh_connect_srv <- function(id = "cred", default_host = NULL) {
+  checkmate::assert_string(id)
+
+  shiny::moduleServer(id, function(input, output, session) {
+    ssh_args <- shiny::eventReactive(input$connect, {
+      ssh_authenticator(id = id, user = input$user, password = input$password,host =  input$host)
+    })
+
+    output$connection_info <- shiny::renderTable({
+      req(ssh_args())
+      session_info <- ssh::ssh_session_info(ssh_args()$session)
+
+      session_info_df <- as.data.frame(t(unlist(session_info)), stringsAsFactors = FALSE)
+      colnames(session_info_df) <- NULL
+
+      # Transpose the data frame to convert column names to row names
+      transposed_info <- t(session_info_df)
+      rownames(transposed_info) <- names(session_info)
+
+      # Convert to data frame and remove column names
+      data_frame_info <- as.data.frame(transposed_info, stringsAsFactors = FALSE)
+      colnames(data_frame_info) <- NULL
+
+      data_frame_info
+    }, rownames = TRUE)
+
+    ssh_args
+  })
 }
 
 #' Authentication to SSH via Shiny module (within teal) or manually
@@ -208,26 +261,12 @@ ssh_connect_ui <- function(id, default_host = NULL, paths) {
 #' \dontrun{
 #' ssh_authenticator("demo")
 #' }
-ssh_authenticator <- function(id = "cred", default_host = NULL) {
+ssh_authenticator <- function(id = "cred", user, password, host) {
   checkmate::assert_string(id)
-  session <- if (shiny::isRunning()) {
-    shiny::moduleServer(id, function(input, output, session) {
-      list(
-        session = ssh::ssh_connect(
-          sprintf("%s@%s", input$user, input$host),
-          passwd = input$password
-        )
-      )
-    })
-  } else {
-    host <- default_host %||% askpass::askpass("Host")
-    user <- askpass::askpass("Username")
-    password <- askpass::askpass("Password")
-    list(
-      session = ssh::ssh_connect(
-        sprintf("%s@%s", user, host),
-        passwd = password
-      )
+  list(
+    session = ssh::ssh_connect(
+      sprintf("%s@%s", user, host),
+      passwd = password
     )
-  }
+  )
 }
