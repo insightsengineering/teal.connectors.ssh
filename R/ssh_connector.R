@@ -262,7 +262,9 @@ ssh_connect_srv <- function(id = "cred", default_host = NULL) {
 #' ssh_authenticator("demo")
 #' }
 ssh_authenticator <- function(id = "cred", user, password, host) {
-  checkmate::assert_string(id)
+  checkmate::assert_string(user)
+  checkmate::assert_string(password)
+  checkmate::assert_string(host)
   list(
     session = ssh::ssh_connect(
       sprintf("%s@%s", user, host),
