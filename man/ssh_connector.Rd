@@ -27,11 +27,15 @@ An \code{ipv6} hostname should be wrapped in brackets like this: \verb{⁠[2001:
 data on the remote server. The names of the list will define the data names
 that will be used to store the data on the \code{teal.data} object.}
 
-\item{read_expression}{(quoted \code{expression}) an expression that will be used by the connector
-to read the contents of the file.
+\item{read_expression}{(quoted \code{call}) a call that will be
+used by the connector to read the contents of the file.
+This \code{call} can be created with \code{\link[=quote]{quote()}} or \code{\link[=substitute]{substitute()}} functions.
 Note that the \code{path} variable is defined in the connector code and should be
 used in the expression.
 It defaults to \code{utils::read.csv(file = path, header = TRUE)}.}
+}
+\value{
+\code{\link[teal:teal_data_module]{teal::teal_data_module()}} object.
 }
 \description{
 This connector allows to read data from SSH remote server during \code{teal} session.

@@ -10,11 +10,15 @@
 #' @param paths (named `list` of file paths) the paths to the files containing the
 #' data on the remote server. The names of the list will define the data names
 #' that will be used to store the data on the `teal.data` object.
-#' @param read_expression (quoted `expression`) an expression that will be used by the connector
-#' to read the contents of the file.
+#' @param read_expression (quoted `call`) a call that will be
+#' used by the connector to read the contents of the file.
+#' This `call` can be created with [quote()] or [substitute()] functions.
 #' Note that the `path` variable is defined in the connector code and should be
 #' used in the expression.
 #' It defaults to `utils::read.csv(file = path, header = TRUE)`.
+#'
+#' @return [teal::teal_data_module()] object.
+#'
 #' @examples
 #' library(teal)
 #' x <- ssh_connector(
@@ -51,7 +55,7 @@ ssh_connector <- function(data = teal.data::teal_data(),
                           read_expression = quote(utils::read.csv(file = path, header = TRUE))) {
   checkmate::assert_class(data, "teal_data")
   checkmate::assert_class(join_keys, "join_keys")
-  # checkmate::assert_(read_function)
+  checkmate::test_class(read_expression, "call")
   checkmate::assert_string(host, null.ok = TRUE)
   checkmate::assert_list(paths, names = "named", min.len = 1, types = "character")
 
@@ -197,49 +201,6 @@ ssh_connector <- function(data = teal.data::teal_data(),
   )
 }
 
-error_ui <- function(failed_files = c(), connection_error = FALSE) {
-  checkmate::assert_list(failed_files, min.len = 0, names = "named", types = "character")
-  checkmate::assert_flag(connection_error)
-
-  shiny::tags$div(
-    class = "message-container",
-    shiny::tags$h3("Sorry, the data retrieval from SSH was unsuccessful..."),
-    shiny::tags$p("Here are some troubleshooting tips for this issue:"),
-    shiny::tags$ul(
-      if (connection_error) {
-        shiny::tags$li("Double check that the host and credentials are correct.")
-      } else {
-        shiny::tags$li("", style = "display: none;")
-      },
-      if (!connection_error && length(failed_files) > 0) {
-        shiny::tags$li(
-          shiny::tags$span("The following files could not be read: "),
-          shiny::tags$ul(
-            lapply(
-              names(failed_files),
-              function(dataname) {
-                shiny::tags$li(
-                  shiny::tags$span(failed_files[[dataname]]),
-                  shiny::tags$i(
-                    "(dataname: ",
-                    shiny::tags$code(dataname, .noWS = "outside"),
-                    ")"
-                  )
-                )
-              }
-            )
-          )
-        )
-      } else {
-        shiny::tags$li("", style = "display: none;")
-      },
-      shiny::tags$li("Contact the app developer if error persists.")
-    ),
-    shiny::tags$br(),
-    shiny::tags$p("Here's more info about the error message:")
-  )
-}
-
 #' UI for connector
 #'
 #' @param id (`character(1)`) the id string to be used in UI element namespace.
@@ -320,9 +281,3 @@ ssh_authenticator <- function(host = NULL) {
   }
 }
 
-# Helper function to get module name
-ssh_module_name <- function() {
-  id <- trimws(getOption("teal.connectors.ssh.module.name", "cred"))
-  checkmate::assert_string(id)
-  id
-}
