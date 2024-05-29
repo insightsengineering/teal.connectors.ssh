@@ -19,17 +19,17 @@
 [![Open Issues](https://img.shields.io/github/issues-raw/insightsengineering/teal.connectors.ssh?color=red\&label=open%20issues)](https://github.com/insightsengineering/teal.connectors.ssh/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc)
 <!-- end badges -->
 
-This package allows SSH data to be pulled into `teal` applications.
-The app developer can use this as a [`teal_data_module`](https://insightsengineering.github.io/teal/latest-tag/data-as-shiny-module.Rmd) in their `teal` application.
+The `teal.connectors.ssh` package allows SSH data to be pulled into `teal` applications.
+The app developer can be used as a [`teal_data_module`](https://insightsengineering.github.io/teal/latest-tag/data-as-shiny-module.Rmd) in your `teal` application.
 
-`teal.connectors.ssh` allows the app developer to define:
+## Key features
 
-- One or more paths to the data in the remote server
-- The data names that will be associated with the data
-- Function to use to read the data. Defaults to `utils::read.csv`
-  - Extra arguments on `ssh_connector` call will be passed on to this function
-- _(optionally)_ The host of the remote server
-  - If not defined, the user must input it manually
+- Define one or more paths to the data in the remote server.
+- The data names that will be associated with the data.
+- Function to use to read the data. with `utils::read.csv` as the default.
+  - Extra arguments on `ssh_connector` call will be passed to this function.
+- _(optionally)_ The host of the remote server.
+  - If not defined, the user must input it manually.
 
 For an example as to how this works see the example app in the help page: `help(ssh_connector)`.
 
