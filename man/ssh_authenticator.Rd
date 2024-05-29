@@ -4,14 +4,10 @@
 \alias{ssh_authenticator}
 \title{Authentication to SSH via Shiny module (within teal) or manually}
 \usage{
-ssh_authenticator(default_host = NULL, id = "cred")
+ssh_authenticator(host = NULL)
 }
 \arguments{
-\item{default_host}{(\code{character(1)}) optional host definition that forces this
-option on the user. If it is not defined, then user can define themselves.}
-
-\item{id}{(\code{character(1)}) An ID string that corresponds with the ID used to call the module's UI function.
-Defaults to \code{"cred"}. This parameter is only used when a shiny application is running.}
+\item{host}{(\code{character(1)}) Optional host address for SSH connection.}
 }
 \value{
 A list with a session object from \code{\link[ssh:ssh]{ssh::ssh_connect()}}.

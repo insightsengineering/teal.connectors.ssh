@@ -4,12 +4,12 @@
 \alias{ssh_connect_ui}
 \title{UI for connector}
 \usage{
-ssh_connect_ui(id, default_host = NULL, paths)
+ssh_connect_ui(id, host = NULL)
 }
 \arguments{
-\item{id}{(\code{character(1)}) The id string to be used in UI element namespace.}
+\item{id}{(\code{character(1)}) the id string to be used in UI element namespace.}
 
-\item{default_host}{(\code{character(1)}) optional host definition that forces this
+\item{host}{(\code{character(1)}) optional host definition that forces this
 option on the user. If it is not defined, then user can define themselves.}
 
 \item{paths}{(named \code{list} of \code{character(1)}) remote path definition.}
