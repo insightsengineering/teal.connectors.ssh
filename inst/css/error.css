@@ -1,7 +1,7 @@
 /* inst/css/error_message_widget.css */
 
 .message-container h3{
-  style: red;
+  color: red;
 }
 
 .shiny-output-error-validation {
