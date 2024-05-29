@@ -38,5 +38,6 @@ SECURITY.md
 ^test_full_example$
 ^TODO\.md$
 ^staged_dependencies\.yaml$
+^\.pre-commit-config\.yaml$
 ^\.gitlab-ci\.yml$
 coverage.*

@@ -9,8 +9,7 @@ ssh_connector(
   join_keys = teal.data::join_keys(),
   host = NULL,
   paths = list(),
-  read_function = function(path, ...) utils::read.csv(file = path, ...),
-  ...
+  read_expression = quote(utils::read.csv(file = path, header = TRUE))
 )
 }
 \arguments{
@@ -28,11 +27,11 @@ An \code{ipv6} hostname should be wrapped in brackets like this: \verb{⁠[2001:
 data on the remote server. The names of the list will define the data names
 that will be used to store the data on the \code{teal.data} object.}
 
-\item{read_function}{(\code{function}) a function definition that will be used by the connector
+\item{read_expression}{(quoted \code{expression}) an expression that will be used by the connector
 to read the contents of the file.
-It defaults to \code{utils::read.csv}}
-
-\item{...}{arguments that are passed to \code{read_function}.}
+Note that the \code{path} variable is defined in the connector code and should be
+used in the expression.
+It defaults to \code{utils::read.csv(file = path, header = TRUE)}.}
 }
 \description{
 This connector allows to read data from SSH remote server during \code{teal} session.
@@ -40,8 +39,7 @@ This connector allows to read data from SSH remote server during \code{teal} ses
 \examples{
 library(teal)
 x <- ssh_connector(
-  paths = list(ADSL = "/path/to/ADSL.csv", ADTTE = "/path/to/ADTTE.csv"),
-  header = TRUE
+  paths = list(ADSL = "/path/to/ADSL.csv", ADTTE = "/path/to/ADTTE.csv")
 )
 
 app <- init(
@@ -56,7 +54,7 @@ if (interactive()) {
 x <- ssh_connector(
   paths = list(ADSL = "/path/to/ADSL.csv", ADTTE = "/path/to/ADTTE.csv"),
   host = "localhost",
-  header = TRUE
+  read_expression = quote(utils::read.csv(file = path, header = TRUE))
 )
 
 app <- init(
