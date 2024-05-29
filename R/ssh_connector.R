@@ -216,9 +216,9 @@ ssh_connect_ui <- function(id, host = NULL) {
   ns <- shiny::NS(id)
 
   shiny::tagList(
-    fluidPage(
-      fluidRow(
-        column(
+    shiny::fluidPage(
+      shiny::fluidRow(
+        shiny::column(
           width = 6,
           shiny::tags$div(
             class = "auth_container",
@@ -228,9 +228,24 @@ ssh_connect_ui <- function(id, host = NULL) {
             shiny::passwordInput(ns("password"), "Password"),
           )
         ),
-        column(
+        shiny::column(
           width = 6,
-          tableOutput(ns("connection_info"))
+          shinyjs::hidden(
+            shiny::tags$div(
+              id = ns("connection_info_container"),
+              shiny::tags$h4(
+                shiny::actionLink(
+                  inputId = ns("expand_info"),
+                  title = "Click to see connection info",
+                  shiny::tagList(
+                    shiny::tags$i(class = "fa fa-plus-square-o", "aria-hidden" = "true"),
+                    shiny::span("Connection info")
+                  )
+                )
+              ),
+              shinyjs::hidden(shiny::tableOutput(ns("connection_info")))
+            )
+          )
         )
       )
     )
@@ -260,12 +275,36 @@ ssh_authenticator <- function(host = NULL) {
 
   session <- if (shiny::isRunning()) {
     shiny::moduleServer(ssh_module_name(), function(input, output, session) {
-      list(
+      res <- list(
         session = ssh::ssh_connect(
-          sprintf("%s@%s", input$user, host %||% input$host),
-          passwd = input$password
+          sprintf("%s@%s", input$user, host %||% input$host), passwd = input$password
         )
       )
+      shinyjs::show("connection_info_container")
+      session_info <- ssh::ssh_session_info(res$session)
+
+      shiny::observeEvent(input$expand_info, {
+        shinyjs::show("connection_info")
+        shinyjs::disable("expand_info")
+      })
+
+      # Caching result of session info as it will be disconnected
+      output$connection_info <- shiny::renderTable({
+        session_info_df <- as.data.frame(t(unlist(session_info)), stringsAsFactors = FALSE)
+        colnames(session_info_df) <- NULL
+
+        # Transpose the data frame to convert column names to row names
+        transposed_info <- t(session_info_df)
+        rownames(transposed_info) <- names(session_info)
+
+        # Convert to data frame and remove column names
+        data_frame_info <- as.data.frame(transposed_info, stringsAsFactors = FALSE)
+        colnames(data_frame_info) <- NULL
+
+        data_frame_info
+    }, rownames = TRUE)
+
+      res
     })
   } else {
     host <- host %||% askpass::askpass("Host")
