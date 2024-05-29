@@ -1,7 +1,7 @@
 #' SSH connector
 #'
 #' This connector allows to read data from SSH remote server during `teal` session.
-
+#'
 #' @inheritParams teal.data::teal_data
 #' @param data (`teal_data`) object. App developer can pass `data` as `teal_data` object with
 #'  some initial data.
