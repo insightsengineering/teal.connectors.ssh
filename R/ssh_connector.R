@@ -282,7 +282,8 @@ ssh_authenticator <- function(host = NULL) {
     shiny::moduleServer(ssh_module_name(), function(input, output, session) {
       res <- list(
         session = ssh::ssh_connect(
-          sprintf("%s@%s", input$user, host %||% input$host), passwd = input$password
+          sprintf("%s@%s", input$user, host %||% input$host),
+          passwd = input$password
         )
       )
       shinyjs::show("connection_info_container")
@@ -294,20 +295,23 @@ ssh_authenticator <- function(host = NULL) {
       })
 
       # Caching result of session info as it will be disconnected after files are downloaded
-      output$connection_info <- shiny::renderTable({
-        session_info_df <- as.data.frame(t(unlist(session_info)), stringsAsFactors = FALSE)
-        colnames(session_info_df) <- NULL
+      output$connection_info <- shiny::renderTable(
+        {
+          session_info_df <- as.data.frame(t(unlist(session_info)), stringsAsFactors = FALSE)
+          colnames(session_info_df) <- NULL
 
-        # Transpose the data frame to convert column names to row names
-        transposed_info <- t(session_info_df)
-        rownames(transposed_info) <- names(session_info)
+          # Transpose the data frame to convert column names to row names
+          transposed_info <- t(session_info_df)
+          rownames(transposed_info) <- names(session_info)
 
-        # Convert to data frame and remove column names
-        data_frame_info <- as.data.frame(transposed_info, stringsAsFactors = FALSE)
-        colnames(data_frame_info) <- NULL
+          # Convert to data frame and remove column names
+          data_frame_info <- as.data.frame(transposed_info, stringsAsFactors = FALSE)
+          colnames(data_frame_info) <- NULL
 
-        data_frame_info
-    }, rownames = TRUE)
+          data_frame_info
+        },
+        rownames = TRUE
+      )
 
       res
     })
