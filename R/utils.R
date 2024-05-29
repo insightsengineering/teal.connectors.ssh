@@ -28,7 +28,7 @@ error_ui <- function(failed_files = c(), connection_error = FALSE) {
               names(failed_files),
               function(dataname) {
                 shiny::tags$li(
-                  shiny::tags$span(failed_files[[dataname]]),
+                  shiny::tags$code(failed_files[[dataname]]),
                   shiny::tags$i(
                     "(dataname: ",
                     shiny::tags$code(dataname, .noWS = "outside"),
