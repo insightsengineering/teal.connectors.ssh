@@ -223,7 +223,12 @@ ssh_connect_ui <- function(id, host = NULL) {
           shiny::tags$div(
             class = "auth_container",
             shiny::tags$h5("SSH authentication"),
-            shiny::textInput(ns("host"), "Host", value = host %||% "", placeholder = "hostname or hostname:port"),
+            shiny::textInput(
+              ns("host"),
+              "Host",
+              value = host %||% "",
+              placeholder = "hostname or hostname:port"
+            ),
             shiny::textInput(ns("user"), "Username"),
             shiny::passwordInput(ns("password"), "Password"),
           )
@@ -239,7 +244,7 @@ ssh_connect_ui <- function(id, host = NULL) {
                   title = "Click to see connection info",
                   shiny::tagList(
                     shiny::tags$i(class = "fa fa-plus-square-o", "aria-hidden" = "true"),
-                    shiny::span("Connection info")
+                    shiny::span("SSH connection info")
                   )
                 )
               ),
@@ -288,7 +293,7 @@ ssh_authenticator <- function(host = NULL) {
         shinyjs::disable("expand_info")
       })
 
-      # Caching result of session info as it will be disconnected
+      # Caching result of session info as it will be disconnected after files are downloaded
       output$connection_info <- shiny::renderTable({
         session_info_df <- as.data.frame(t(unlist(session_info)), stringsAsFactors = FALSE)
         colnames(session_info_df) <- NULL
