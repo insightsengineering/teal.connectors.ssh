@@ -10,7 +10,7 @@ ssh_connector(
   host = NULL,
   paths = list(),
   read_expression = quote(utils::read.csv(file = path, header = TRUE)),
-  title = shiny::h1(shiny::code("teal"), " - Access data from SSH")
+  title = shiny::h2(shiny::code("teal"), " - Access data from SSH")
 )
 }
 \arguments{

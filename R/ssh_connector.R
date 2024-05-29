@@ -54,7 +54,7 @@ ssh_connector <- function(data = teal.data::teal_data(),
                           host = NULL,
                           paths = list(),
                           read_expression = quote(utils::read.csv(file = path, header = TRUE)),
-                          title = shiny::h1(shiny::code("teal"), " - Access data from SSH")) {
+                          title = shiny::h2(shiny::code("teal"), " - Access data from SSH")) {
   checkmate::assert_class(data, "teal_data")
   checkmate::assert_class(join_keys, "join_keys")
   checkmate::test_class(read_expression, "call")
