@@ -21,7 +21,7 @@ optional object with datasets column names used for joining.
 If empty then no joins between pairs of objects.}
 
 \item{host}{(\code{character}) an ssh server string of the form \verb{hostname[:port]}.
-An \code{ipv6} hostname should be wrapped in brackets like this: \verb{⁠[2001:db8::1]:80}⁠.}
+An \code{ipv6} hostname should be wrapped in brackets like this: \verb{[2001:db8::1:80]}.}
 
 \item{paths}{(named \code{list} of file paths) the paths to the files containing the
 data on the remote server. The names of the list will define the data names

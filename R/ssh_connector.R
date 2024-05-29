@@ -6,7 +6,7 @@
 #' @param data (`teal_data`) object. App developer can pass `data` as `teal_data` object with
 #'  some initial data.
 #' @param host (`character`) an ssh server string of the form `hostname[:port]`.
-#' An `ipv6` hostname should be wrapped in brackets like this: `⁠[2001:db8::1]:80`⁠.
+#' An `ipv6` hostname should be wrapped in brackets like this: `[2001:db8::1:80]`.
 #' @param paths (named `list` of file paths) the paths to the files containing the
 #' data on the remote server. The names of the list will define the data names
 #' that will be used to store the data on the `teal.data` object.
