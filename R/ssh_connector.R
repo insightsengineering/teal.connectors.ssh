@@ -235,7 +235,6 @@ ssh_connect_ui <- function(id, host = NULL) {
       )
     )
   )
-
 }
 
 #' Authentication to SSH via Shiny module (within teal) or manually
@@ -280,4 +279,3 @@ ssh_authenticator <- function(host = NULL) {
     )
   }
 }
-
