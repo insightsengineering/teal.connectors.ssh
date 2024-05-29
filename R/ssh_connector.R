@@ -203,10 +203,8 @@ ssh_connector <- function(data = teal.data::teal_data(),
 
 #' UI for connector
 #'
-#' @param id (`character(1)`) the id string to be used in UI element namespace.
 #' @param host (`character(1)`) optional host definition that forces this
 #' option on the user. If it is not defined, then user can define themselves.
-#' @param paths (named `list` of `character(1)`) remote path definition.
 #'
 #' @return a [shiny::tagList] with UI definition.
 #'

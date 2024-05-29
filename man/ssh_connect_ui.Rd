@@ -7,12 +7,8 @@
 ssh_connect_ui(id, host = NULL)
 }
 \arguments{
-\item{id}{(\code{character(1)}) the id string to be used in UI element namespace.}
-
 \item{host}{(\code{character(1)}) optional host definition that forces this
 option on the user. If it is not defined, then user can define themselves.}
-
-\item{paths}{(named \code{list} of \code{character(1)}) remote path definition.}
 }
 \value{
 a \link[shiny:reexports]{shiny::tagList} with UI definition.
