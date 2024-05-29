@@ -9,7 +9,8 @@ ssh_connector(
   join_keys = teal.data::join_keys(),
   host = NULL,
   paths = list(),
-  read_expression = quote(utils::read.csv(file = path, header = TRUE))
+  read_expression = quote(utils::read.csv(file = path, header = TRUE)),
+  title = shiny::h1(shiny::code("teal"), " - Access data from SSH")
 )
 }
 \arguments{
@@ -33,6 +34,8 @@ This \code{call} can be created with \code{\link[=quote]{quote()}} or \code{\lin
 Note that the \code{path} variable is defined in the connector code and should be
 used in the expression.
 It defaults to \code{utils::read.csv(file = path, header = TRUE)}.}
+
+\item{title}{(\code{shiny.tag}) a title for the connector.`}
 }
 \value{
 \code{\link[teal:teal_data_module]{teal::teal_data_module()}} object.

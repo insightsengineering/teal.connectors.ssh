@@ -16,6 +16,7 @@
 #' Note that the `path` variable is defined in the connector code and should be
 #' used in the expression.
 #' It defaults to `utils::read.csv(file = path, header = TRUE)`.
+#' @param title (`shiny.tag`) a title for the connector.`
 #'
 #' @return [teal::teal_data_module()] object.
 #'
@@ -52,12 +53,14 @@ ssh_connector <- function(data = teal.data::teal_data(),
                           join_keys = teal.data::join_keys(),
                           host = NULL,
                           paths = list(),
-                          read_expression = quote(utils::read.csv(file = path, header = TRUE))) {
+                          read_expression = quote(utils::read.csv(file = path, header = TRUE)),
+                          title = shiny::h1(shiny::code("teal"), " - Access data from SSH")) {
   checkmate::assert_class(data, "teal_data")
   checkmate::assert_class(join_keys, "join_keys")
   checkmate::test_class(read_expression, "call")
   checkmate::assert_string(host, null.ok = TRUE)
   checkmate::assert_list(paths, names = "named", min.len = 1, types = "character")
+  checkmate::assert_class(title, "shiny.tag")
 
   dataset_code <- mapply(
     function(path, dataname) {
@@ -100,6 +103,7 @@ ssh_connector <- function(data = teal.data::teal_data(),
             shiny::includeCSS(system.file("css/error.css", package = "teal.connectors.ssh"))
           )
         ),
+        title,
         ssh_connect_ui(ns(ssh_module_name()), host = host),
         shiny::div(
           shiny::tags$h5(
