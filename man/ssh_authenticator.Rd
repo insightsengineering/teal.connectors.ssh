@@ -21,7 +21,7 @@ When used outside a Shiny or \code{teal} application it will ask the user for th
 authenticate using \code{\link[ssh:ssh]{ssh::ssh_connect()}}.
 }
 \examples{
-\dontrun{
-ssh_authenticator()
+if (interactive()) {
+  ssh_authenticator()
 }
 }
