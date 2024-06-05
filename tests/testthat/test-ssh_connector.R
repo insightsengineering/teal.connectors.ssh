@@ -110,7 +110,7 @@ testthat::test_that("ssh_connector$server returns 'teal_data' from ", {
   iris_path <- withr::local_tempfile()
 
   read_expr <- expression(
-      read_custom <- function(path) {
+    read_custom <- function(path) {
       dat <- as.data.frame(read.dcf(path))
       for (x in c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width")) {
         dat[[x]] <- as.numeric(dat[[x]])
