@@ -38,7 +38,7 @@ It defaults to \code{utils::read.csv(file = path, header = TRUE)}.}
 \item{title}{(\code{shiny.tag}) a title for the connector.`}
 }
 \value{
-\code{\link[teal:teal_data_module]{teal::teal_data_module()}} object.
+object of class \code{teal_data_module}.
 }
 \description{
 This connector allows to read data from SSH remote server during \code{teal} session.
