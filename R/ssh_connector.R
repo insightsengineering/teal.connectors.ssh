@@ -18,7 +18,7 @@
 #' It defaults to `utils::read.csv(file = path, header = TRUE)`.
 #' @param title (`shiny.tag`) a title for the connector.`
 #'
-#' @return [teal::teal_data_module()] object.
+#' @return object of class `teal_data_module`.
 #'
 #' @examples
 #' library(teal)
@@ -261,7 +261,6 @@ ssh_connect_ui <- function(id, host = NULL) {
 
 #' Authentication to SSH via Shiny module (within teal) or manually
 #'
-#' @description
 #' It should be used as part of a [teal::teal_data_module()] server to
 #' perform SSH authentication in a teal application.
 #'
