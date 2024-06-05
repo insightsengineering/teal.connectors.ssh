@@ -146,7 +146,7 @@ ssh_connector <- function(data = teal.data::teal_data(),
           new_tdata <- ssh_tdata()
 
           failed_files <- list()
-          if (!checkmate::test_class(ssh_tdata, "qenv.error")) {
+          if (!checkmate::test_class(new_tdata, "qenv.error")) {
             failed_tdata <- NULL
             for (code_ix in seq_along(dataset_code)) {
               new_tdata <- teal.code::eval_code(new_tdata, dataset_code[[code_ix]])
