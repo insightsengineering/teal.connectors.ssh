@@ -271,8 +271,8 @@ ssh_connect_ui <- function(id, host = NULL) {
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' ssh_authenticator()
+#' if (interactive()) {
+#'   ssh_authenticator()
 #' }
 ssh_authenticator <- function(host = NULL) {
   checkmate::assert_string(host, null.ok = TRUE)
