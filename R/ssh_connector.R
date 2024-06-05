@@ -161,10 +161,7 @@ ssh_connector <- function(data = teal.data::teal_data(),
           }
 
           if (checkmate::test_class(new_tdata, "teal_data")) {
-            teal.data::datanames(new_tdata) <- setdiff(
-              union(teal.data::datanames(new_tdata), names(paths)),
-              "ssh_session"
-            )
+            teal.data::datanames(new_tdata) <- union(teal.data::datanames(new_tdata), names(paths))
             teal.data::join_keys(new_tdata) <- c(teal.data::join_keys(data), join_keys)
           }
 
