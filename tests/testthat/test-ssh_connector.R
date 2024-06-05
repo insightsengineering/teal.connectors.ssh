@@ -35,11 +35,13 @@ testthat::test_that("ssh_connector$server returns 'teal_data' after clicking sub
   write.csv(iris, file = iris_path)
   write.csv(mtcars, file = mtcars_path)
 
+  read_expr <- quote(
+    utils::read.csv(file = path, header = TRUE, row.names = 1, stringsAsFactors = TRUE)
+  )
+
   connector <- ssh_connector(
     paths = list(dataset1 = iris_path, dataset2 = mtcars_path),
-    header = TRUE,
-    row.names = 1,
-    stringsAsFactors = TRUE
+    read_expression = read_expr
   )
 
   shiny::testServer(
@@ -50,6 +52,8 @@ testthat::test_that("ssh_connector$server returns 'teal_data' after clicking sub
       testthat::with_mocked_bindings(
         ssh_connect = function(...) list(),
         ssh_disconnect = function(...) NULL,
+        ssh_session_info = function(...) NULL,
+        ssh_exec_wait = function(...) 0,
         scp_download = function(session, files, to) {
           lapply(
             files,
@@ -59,28 +63,26 @@ testthat::test_that("ssh_connector$server returns 'teal_data' after clicking sub
         .package = "ssh",
         code = {
           session$setInputs(submit = TRUE)
-          testthat::expect_s4_class(tdata(), "teal_data")
 
-          code <- teal.code::get_code(tdata())
-
-          params_str <- "header = TRUE, row.names = 1, stringsAsFactors = TRUE"
+          testthat::expect_s4_class(final_tdata(), "teal_data")
+          code <- teal.code::get_code(final_tdata())
 
           testthat::expect_equal(
             trimws(strsplit(code, "\n")[[1]]), # remove indentaton and whitespace
             c(
-              "ssh_args <- ssh_authenticator(id = \"cred\", default_host = NULL)",
+              "ssh_args <- ssh_authenticator(host = NULL)",
               "ssh_session <- ssh_args$session",
-              "read_function <- function (path, ...)",
-              "utils::read.csv(file = path, ...)",
               "dataset1 <- withr::with_tempdir({",
-              sprintf("downloaded <- ssh::scp_download(ssh_session, \"%s\", to = \".\")", iris_path),
-              sprintf("do.call(read_function, append(list(basename(\"%s\")), list(%s)))", iris_path, params_str),
+              sprintf("path <- \"%s\"", iris_path),
+              "downloaded <- ssh::scp_download(ssh_session, path, to = \".\")",
+              "path <- basename(path)",
+              format(read_expr),
               "})",
               "dataset2 <- withr::with_tempdir({",
-              sprintf("downloaded <- ssh::scp_download(ssh_session, \"%s\", to = \".\")", mtcars_path),
-              sprintf(
-                "do.call(read_function, append(list(basename(\"%s\")), list(%s)))", mtcars_path, params_str
-              ),
+              sprintf("path <- \"%s\"", mtcars_path),
+              "downloaded <- ssh::scp_download(ssh_session, path, to = \".\")",
+              "path <- basename(path)",
+              format(read_expr),
               "})",
               "ssh::ssh_disconnect(ssh_session)",
               "rm(ssh_session)"
@@ -88,8 +90,8 @@ testthat::test_that("ssh_connector$server returns 'teal_data' after clicking sub
             fixed = TRUE
           )
 
-          testthat::expect_equal(teal.code::get_var(tdata(), "dataset1"), iris)
-          testthat::expect_equal(teal.code::get_var(tdata(), "dataset2"), mtcars)
+          testthat::expect_equal(teal.code::get_var(final_tdata(), "dataset1"), iris)
+          testthat::expect_equal(teal.code::get_var(final_tdata(), "dataset2"), mtcars)
         }
       )
     }
@@ -107,18 +109,21 @@ testthat::test_that("ssh_connector$server returns 'teal_data' from ", {
 
   iris_path <- withr::local_tempfile()
 
-  read_fun <- function(path, ...) {
-    dat <- as.data.frame(read.dcf(path), ...)
-    for (x in c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width")) {
-      dat[[x]] <- as.numeric(dat[[x]])
-    }
-    dat$Species <- as.factor(dat$Species)
-    dat
-  }
+  read_expr <- expression(
+      read_custom <- function(path) {
+      dat <- as.data.frame(read.dcf(path))
+      for (x in c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width")) {
+        dat[[x]] <- as.numeric(dat[[x]])
+      }
+      dat$Species <- as.factor(dat$Species)
+      dat
+    },
+    read_custom(path = path)
+  )
 
   write.dcf(iris, file = iris_path)
 
-  connector <- ssh_connector(paths = list(dataset1 = iris_path), read_function = read_fun)
+  connector <- ssh_connector(paths = list(dataset1 = iris_path), read_expression = read_expr)
 
   shiny::testServer(
     connector$server,
@@ -128,6 +133,8 @@ testthat::test_that("ssh_connector$server returns 'teal_data' from ", {
       testthat::with_mocked_bindings(
         ssh_connect = function(...) list(),
         ssh_disconnect = function(...) NULL,
+        ssh_session_info = function(...) NULL,
+        ssh_exec_wait = function(...) 0,
         scp_download = function(session, files, to) {
           lapply(
             files,
@@ -137,9 +144,8 @@ testthat::test_that("ssh_connector$server returns 'teal_data' from ", {
         .package = "ssh",
         code = {
           session$setInputs(submit = TRUE)
-          testthat::expect_s4_class(tdata(), "teal_data")
-
-          testthat::expect_equal(teal.code::get_var(tdata(), "dataset1"), iris)
+          testthat::expect_s4_class(final_tdata(), "teal_data")
+          testthat::expect_equal(teal.code::get_var(final_tdata(), "dataset1"), iris)
         }
       )
     }

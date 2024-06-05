@@ -62,29 +62,25 @@ ssh_connector <- function(data = teal.data::teal_data(),
   checkmate::assert_list(paths, names = "named", min.len = 1, types = "character")
   checkmate::assert_class(title, "shiny.tag")
 
+
+
   dataset_code <- mapply(
     function(path, dataname) {
-      substitute(
-        {
-          # Downloads file to a temporary directory and allows inclusion
-          # of code in "Show R Code" without @linksto
-          dataname <- withr::with_tempdir({
-            path <- substitute_path
-            downloaded <- ssh::scp_download(
-              ssh_session,
-              path,
-              to = "."
-            )
-
-            path <- basename(path) # read from local directory
-            read_expression
-          })
-        },
-        list(
-          substitute_path = path,
-          dataname = str2lang(dataname),
-          read_expression = read_expression
-        )
+      read_expression <- c(read_expression, expression()) # Trick to allow splicing on bquote
+      bquote(
+        # Downloads file to a temporary directory and allows inclusion
+        # of code in "Show R Code" without @linksto
+        .(as.name(dataname)) <- withr::with_tempdir({
+          path <- .(path)
+          downloaded <- ssh::scp_download(
+            ssh_session,
+            path,
+            to = "."
+          )
+          path <- basename(path) # read from local directory
+          ..(read_expression)
+        }),
+        splice = TRUE
       )
     },
     path = unname(paths),
