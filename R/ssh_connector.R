@@ -261,7 +261,7 @@ ssh_connect_ui <- function(id, host = NULL) {
 #' Authentication function that is used as part of a [teal::teal_data_module()] server to
 #' perform SSH authentication in a `teal` application.
 #'
-#' When used outside a Shiny or `teal` application it will ask the user for the credentials and 
+#' When used outside a Shiny or `teal` application it will ask the user for the credentials and
 #' authenticate using [ssh::ssh_connect()].
 #'
 #' @param host (`character(1)`) Optional host address for SSH connection.
