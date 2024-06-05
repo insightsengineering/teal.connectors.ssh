@@ -28,12 +28,15 @@ An \code{ipv6} hostname should be wrapped in brackets like this: \verb{[2001:db8
 data on the remote server. The names of the list will define the data names
 that will be used to store the data on the \code{teal.data} object.}
 
-\item{read_expression}{(quoted \code{call}) a call that will be
+\item{read_expression}{(quoted \code{call} or \code{expression}) a call that will be
 used by the connector to read the contents of the file.
-This \code{call} can be created with \code{\link[=quote]{quote()}} or \code{\link[=substitute]{substitute()}} functions.
+This \code{call} can be created with \code{\link[=quote]{quote()}}, \code{\link[=substitute]{substitute()}} or \code{\link[=expression]{expression()}} functions.
 Note that the \code{path} variable is defined in the connector code and should be
 used in the expression.
-It defaults to \code{utils::read.csv(file = path, header = TRUE)}.}
+It defaults to \code{utils::read.csv(file = path, header = TRUE)}.
+
+When complex expression are being used, we recommend to use \code{\link[=expression]{expression()}} with
+with each line being a separate argument. See example below.}
 
 \item{title}{(\code{shiny.tag}) a title for the connector.`}
 }
@@ -49,10 +52,8 @@ x <- ssh_connector(
   paths = list(ADSL = "/path/to/ADSL.csv", ADTTE = "/path/to/ADTTE.csv")
 )
 
-app <- init(
-  data = x,
-  modules = list(example_module())
-)
+app <- init(data = x, modules = list(example_module()))
+
 if (interactive()) {
   shiny::runApp(app)
 }
@@ -64,10 +65,23 @@ x <- ssh_connector(
   read_expression = quote(utils::read.csv(file = path, header = TRUE))
 )
 
-app <- init(
-  data = x,
-  modules = list(example_module())
+app <- init(data = x, modules = list(example_module()))
+
+if (interactive()) {
+  shiny::runApp(app)
+}
+
+# Example with complex expression
+x <- ssh_connector(
+  paths = list(ADSL = "/path/to/ADSL.csv", ADTTE = "/path/to/ADTTE.csv"),
+  read_expression = expression(
+    read_custom = function(file) utils::read.csv(file = file, header = TRUE)),
+    read_custom(path)
+  )
 )
+
+app <- init(data = x, modules = list(example_module()))
+
 if (interactive()) {
   shiny::runApp(app)
 }

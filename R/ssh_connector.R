@@ -10,12 +10,15 @@
 #' @param paths (named `list` of file paths) the paths to the files containing the
 #' data on the remote server. The names of the list will define the data names
 #' that will be used to store the data on the `teal.data` object.
-#' @param read_expression (quoted `call`) a call that will be
+#' @param read_expression (quoted `call` or `expression`) a call that will be
 #' used by the connector to read the contents of the file.
-#' This `call` can be created with [quote()] or [substitute()] functions.
+#' This `call` can be created with [quote()], [substitute()] or [expression()] functions.
 #' Note that the `path` variable is defined in the connector code and should be
 #' used in the expression.
 #' It defaults to `utils::read.csv(file = path, header = TRUE)`.
+#'
+#' When complex expression are being used, we recommend to use [expression()] with
+#' with each line being a separate argument. See example below.
 #' @param title (`shiny.tag`) a title for the connector.`
 #'
 #' @return object of class `teal_data_module`.
@@ -26,10 +29,8 @@
 #'   paths = list(ADSL = "/path/to/ADSL.csv", ADTTE = "/path/to/ADTTE.csv")
 #' )
 #'
-#' app <- init(
-#'   data = x,
-#'   modules = list(example_module())
-#' )
+#' app <- init(data = x, modules = list(example_module()))
+#'
 #' if (interactive()) {
 #'   shiny::runApp(app)
 #' }
@@ -41,10 +42,23 @@
 #'   read_expression = quote(utils::read.csv(file = path, header = TRUE))
 #' )
 #'
-#' app <- init(
-#'   data = x,
-#'   modules = list(example_module())
+#' app <- init(data = x, modules = list(example_module()))
+#'
+#' if (interactive()) {
+#'   shiny::runApp(app)
+#' }
+#'
+#' # Example with complex expression
+#' x <- ssh_connector(
+#'   paths = list(ADSL = "/path/to/ADSL.csv", ADTTE = "/path/to/ADTTE.csv"),
+#'   read_expression = expression(
+#'     read_custom = function(file) utils::read.csv(file = file, header = TRUE)),
+#'     read_custom(path)
+#'   )
 #' )
+#'
+#' app <- init(data = x, modules = list(example_module()))
+#'
 #' if (interactive()) {
 #'   shiny::runApp(app)
 #' }
