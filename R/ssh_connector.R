@@ -149,7 +149,21 @@ ssh_connector <- function(data = teal.data::teal_data(),
           if (!checkmate::test_class(new_tdata, "qenv.error")) {
             failed_tdata <- NULL
             for (code_ix in seq_along(dataset_code)) {
-              new_tdata <- teal.code::eval_code(new_tdata, dataset_code[[code_ix]])
+              if (is.null(failed_tdata)) {
+                new_tdata <- teal.code::eval_code(new_tdata, dataset_code[[code_ix]])
+              } else {
+                # Faster way of checking if files exist without having to download
+                new_tdata <- within(
+                  new_tdata,
+                  {
+                    # Throw error if file does not exist in remote host
+                    stopifnot(
+                      0 == ssh::ssh_exec_wait(ssh_session, command = sprintf("[[ -f %s ]]", path))
+                    )
+                  },
+                  path = paths[[code_ix]]
+                )
+              }
               if (checkmate::test_class(new_tdata, "qenv.error")) {
                 failed_tdata <- failed_tdata %||% new_tdata # Keep first occurrence of error
                 failed_files[[names(dataset_code)[[code_ix]]]] <- paths[[code_ix]]
