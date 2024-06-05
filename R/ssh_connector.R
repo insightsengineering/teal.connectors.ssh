@@ -165,7 +165,7 @@ ssh_connector <- function(data = teal.data::teal_data(),
               union(teal.data::datanames(new_tdata), names(paths)),
               "ssh_session"
             )
-            teal.data::join_keys(new_tdata) <- join_keys
+            teal.data::join_keys(new_tdata) <- c(teal.data::join_keys(data), join_keys)
           }
 
           list(tdata = new_tdata, failed_files = failed_files)
