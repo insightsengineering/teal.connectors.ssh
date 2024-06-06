@@ -75,7 +75,7 @@ if (interactive()) {
 x <- ssh_connector(
   paths = list(ADSL = "/path/to/ADSL.csv", ADTTE = "/path/to/ADTTE.csv"),
   read_expression = expression(
-    read_custom = function(file) utils::read.csv(file = file, header = TRUE)),
+    read_custom = function(file) utils::read.csv(file = file, header = TRUE),
     read_custom(path)
   )
 )
