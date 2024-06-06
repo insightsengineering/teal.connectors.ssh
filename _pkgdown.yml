@@ -1,0 +1,17 @@
+url: https://docs.roche.com/#/teal.connectors.ssh/latest
+
+template:
+  package: nesttemplate
+
+navbar:
+  right:
+  - icon: fa-gitlab
+    href: https://code.roche.com/nest/r-packages/teal.connectors.ssh
+
+reference:
+  - title: SSH connector function
+    desc: Data input for teal application in a form of shiny module
+    contents:
+    - ssh_authenticator
+    - ssh_connector
+    - teal.connectors.ssh

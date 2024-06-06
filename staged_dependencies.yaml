@@ -1,0 +1,14 @@
+current_repo:
+  repo: insightsengineering/teal.connectors.ssh
+  host: https://github.com
+upstream_repos:
+  insightsengineering/teal:
+    repo: insightsengineering/teal
+    host: https://github.com
+  insightsengineering/teal.data:
+    repo: insightsengineering/teal.data
+    host: https://github.com
+  insightsengineering/teal.code:
+    repo: insightsengineering/teal.code
+    host: https://github.com
+downstream_repos:
