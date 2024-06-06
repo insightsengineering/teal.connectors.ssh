@@ -1,8 +1,8 @@
 Type: Package
 Package: teal.connectors.ssh
 Title: Teal connector to SSH Data
-Version: 0.0.0.9000
-Date: 2024-05-12
+Version: 0.0.0.9001
+Date: 2024-06-06
 Authors@R: c(
     person("Andre", "Verissimo", , "andre.verissimo@roche.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-2212-339X")),
@@ -20,8 +20,8 @@ Imports:
     shinyjs,
     ssh,
     teal (>= 0.15.2),
-    teal.data (>= 0.6),
     teal.code (>= 0.5.0),
+    teal.data (>= 0.6),
     withr
 Suggests:
     knitr (>= 1.42),
@@ -30,11 +30,11 @@ Suggests:
     testthat (>= 3.0)
 VignetteBuilder:
     knitr
-Config/Needs/verdepcheck:
-    r-lib/askpass, mllg/checkmate, r-lib/rlang, rstudio/shiny, daattali/shinyjs, 
-    jeroen/ssh, insightsengineering/teal, insightsengineering/teal.data, 
-    insightsengineering/teal.code, r-lib/withr, yihui/knitr, r-lib/lifecycle,
-    rstudio/rmarkdown, r-lib/testthat
+Config/Needs/verdepcheck: r-lib/askpass, mllg/checkmate, r-lib/rlang,
+    rstudio/shiny, daattali/shinyjs, jeroen/ssh, insightsengineering/teal,
+    insightsengineering/teal.data, insightsengineering/teal.code,
+    r-lib/withr, yihui/knitr, r-lib/lifecycle, rstudio/rmarkdown,
+    r-lib/testthat
 Config/Needs/website: insightsengineering/nesttemplate
 Encoding: UTF-8
 LazyData: true
