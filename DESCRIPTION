@@ -14,20 +14,20 @@ Depends:
     R (>= 3.6.0)
 Imports:
     askpass,
-    checkmate,
-    rlang,
-    shiny,
+    checkmate (>= 2.1.0),
+    rlang (>= 1.0.0),
+    shiny (>= 1.7.0),
     shinyjs,
-    ssh,
+    ssh (>= 0.8.0),
     teal (>= 0.15.2),
     teal.code (>= 0.5.0),
     teal.data (>= 0.6),
-    withr
+    withr (>= 2.1.0)
 Suggests:
     knitr (>= 1.42),
     lifecycle,
     rmarkdown (>= 2.23),
-    testthat (>= 3.0)
+    testthat (>= 3.1.5)
 VignetteBuilder:
     knitr
 Config/Needs/verdepcheck: r-lib/askpass, mllg/checkmate, r-lib/rlang,
