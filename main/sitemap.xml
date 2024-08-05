@@ -1,39 +1,15 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://docs.roche.com/#/teal.connectors.ssh/latest/404.html</loc>
-  </url>
-  <url>
-    <loc>https://docs.roche.com/#/teal.connectors.ssh/latest/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://docs.roche.com/#/teal.connectors.ssh/latest/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>https://docs.roche.com/#/teal.connectors.ssh/latest/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://docs.roche.com/#/teal.connectors.ssh/latest/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://docs.roche.com/#/teal.connectors.ssh/latest/index.html</loc>
-  </url>
-  <url>
-    <loc>https://docs.roche.com/#/teal.connectors.ssh/latest/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://docs.roche.com/#/teal.connectors.ssh/latest/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://docs.roche.com/#/teal.connectors.ssh/latest/reference/ssh_authenticator.html</loc>
-  </url>
-  <url>
-    <loc>https://docs.roche.com/#/teal.connectors.ssh/latest/reference/ssh_connect_ui.html</loc>
-  </url>
-  <url>
-    <loc>https://docs.roche.com/#/teal.connectors.ssh/latest/reference/ssh_connector.html</loc>
-  </url>
-  <url>
-    <loc>https://docs.roche.com/#/teal.connectors.ssh/latest/reference/teal.connectors.ssh.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://docs.roche.com/#/teal.connectors.ssh/latest/404.html</loc></url>
+<url><loc>https://docs.roche.com/#/teal.connectors.ssh/latest/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://docs.roche.com/#/teal.connectors.ssh/latest/CONTRIBUTING.html</loc></url>
+<url><loc>https://docs.roche.com/#/teal.connectors.ssh/latest/LICENSE-text.html</loc></url>
+<url><loc>https://docs.roche.com/#/teal.connectors.ssh/latest/authors.html</loc></url>
+<url><loc>https://docs.roche.com/#/teal.connectors.ssh/latest/index.html</loc></url>
+<url><loc>https://docs.roche.com/#/teal.connectors.ssh/latest/news/index.html</loc></url>
+<url><loc>https://docs.roche.com/#/teal.connectors.ssh/latest/reference/index.html</loc></url>
+<url><loc>https://docs.roche.com/#/teal.connectors.ssh/latest/reference/ssh_authenticator.html</loc></url>
+<url><loc>https://docs.roche.com/#/teal.connectors.ssh/latest/reference/ssh_connect_ui.html</loc></url>
+<url><loc>https://docs.roche.com/#/teal.connectors.ssh/latest/reference/ssh_connector.html</loc></url>
+<url><loc>https://docs.roche.com/#/teal.connectors.ssh/latest/reference/teal.connectors.ssh.html</loc></url>
 </urlset>
+
