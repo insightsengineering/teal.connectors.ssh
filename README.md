@@ -1,7 +1,7 @@
 # `teal.connectors.ssh`: `teal` connector to access data via SSH
 
 <!-- start badges -->
-[![Check 🛠](https://github.com/insightsengineering/teal.connectors.ssh/actions/workflows/check.yaml/badge.svg)](https://insightsengineering.github.io/teal.connectors.ssh/main/unit-test-report/)
+[![Check 🛠](https://github.com/insightsengineering/teal.connectors.ssh/actions/workflows/check.yaml/badge.svg)](https://github.com/insightsengineering/teal.connectors.ssh/actions/workflows/check.yaml)
 [![Docs 📚](https://github.com/insightsengineering/teal.connectors.ssh/actions/workflows/docs.yaml/badge.svg)](https://insightsengineering.github.io/teal.connectors.ssh/)
 [![Code Coverage 📔](https://raw.githubusercontent.com/insightsengineering/teal.connectors.ssh/_xml_coverage_reports/data/main/badge.svg)](https://insightsengineering.github.io/teal.connectors.ssh/main/coverage-report/)
 
@@ -20,7 +20,7 @@
 <!-- end badges -->
 
 The `teal.connectors.ssh` package allows SSH data to be pulled into `teal` applications.
-The app developer can be used as a [`teal_data_module`](https://insightsengineering.github.io/teal/latest-tag/data-as-shiny-module.Rmd) in your `teal` application.
+The app developer can be used as a [`teal_data_module`](https://insightsengineering.github.io/teal/latest-tag/articles/data-as-shiny-module.html) in your `teal` application.
 
 ## Key features
 
