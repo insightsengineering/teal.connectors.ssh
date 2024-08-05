@@ -142,7 +142,7 @@ ssh_connector <- function(data = teal.data::teal_data(),
           within(
             data,
             {
-              ssh_args <- teal.connector.ssh::ssh_authenticator(host = host)
+              ssh_args <- teal.connectors.ssh::ssh_authenticator(host = host)
               ssh_session <- ssh_args$session
             },
             host = host
